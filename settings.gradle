@@ -1,0 +1,6 @@
+rootProject.name = 'redis-protocol'
+include 'redis-server'
+include 'redis-client'
+include 'redis-util'
+include 'protocol'
+
