@@ -34,8 +34,7 @@ public class RedisClient {
                 });
 
                 // Now send some data
-
-                for (int i = 0; i < 10000000; i++) {
+                for (int i = 0; i < 1000000; i++) {
                     service.execute(new MyRunnable(i, socket));
                 }
             } else {
@@ -55,9 +54,7 @@ public class RedisClient {
 
         @Override
         public void run() {
-            String send = new StringBuilder("$")
-                    .append(String.valueOf(i).length()).append("\r\n").append(i)
-                    .append("\r\n")
+            String send = new StringBuilder("*2\r\n$3\r\nfoo\r\n$3\r\nbar\r\n")
                     .toString();
             System.out.println(new StringBuilder("Print ").append(i));
             netSocket.write(send);

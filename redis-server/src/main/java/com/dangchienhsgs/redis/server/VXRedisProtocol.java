@@ -60,7 +60,9 @@ public class VXRedisProtocol {
                 throw new CommandErrorException("Unexpected character in stream: " + ((char) code));
             }
         } catch (IncompleteCommandException e) {
-            cacheIncompleteCommand();
+            if (!inMultiBulkReply) {
+                cacheIncompleteCommand();
+            }
             return null;
         }
     }
@@ -75,7 +77,15 @@ public class VXRedisProtocol {
             }
             Reply[] replies = new Reply[(int) size];
             for (int i = 0; i < size; i++) {
+                if (getNumberUnreadByte() == 0) {
+                    throw new IncompleteCommandException("The array command is incomplement at element " + i);
+                }
+
                 replies[i] = receive(true);
+
+                if (replies[i] == null) {
+                    throw new IncompleteCommandException("The array command is incomplement at element " + i);
+                }
             }
             return replies;
         }
@@ -186,7 +196,7 @@ public class VXRedisProtocol {
     public void cacheIncompleteCommand() {
         Buffer cacheBuffer = buffer.getBuffer(unreadIndex, buffer.getByteBuf().writerIndex());
         // reset its index
-        //System.out.println("CACHE: " + new String(cacheBuffer.getBytes()).replace("\r", "r").replace("\n", "n") + " " + cacheBuffer.getByteBuf().readerIndex());
+        System.out.println("CACHE: " + new String(cacheBuffer.getBytes()).replace("\r", "r").replace("\n", "n") + " " + cacheBuffer.getByteBuf().readerIndex());
         cacheHandler.setBuffer(cacheBuffer);
     }
 

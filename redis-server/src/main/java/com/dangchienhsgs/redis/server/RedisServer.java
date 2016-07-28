@@ -48,13 +48,13 @@ public class RedisServer extends AbstractVerticle {
         public void handle(Buffer buffer) {
             VXRedisProtocol protocol;
             if (cacheHandler.getBuffer() == null) {
-                //System.out.println("New Buffer: " + buffer.toString().replace("\r", "r").replace("\n", "n"));
+                System.out.println("New Buffer: " + buffer.toString().replace("\r", "r").replace("\n", "n"));
                 protocol = new VXRedisProtocol(buffer, cacheHandler);
             } else {
                 Buffer totalBuffer = cacheHandler.getBuffer().copy();
                 totalBuffer.appendBuffer(buffer);
                 cacheHandler.setBuffer(null);
-                //System.out.println("Cached, new Buffer: " + totalBuffer.toString().replace("\r", "r").replace("\n", "n"));
+                System.out.println("Cached, new Buffer: " + totalBuffer.toString().replace("\r", "r").replace("\n", "n"));
                 protocol = new VXRedisProtocol(totalBuffer, cacheHandler);
             }
             while (protocol.getNumberUnreadByte() > 0) {
@@ -74,9 +74,12 @@ public class RedisServer extends AbstractVerticle {
                         //System.out.println("Receive " + message);
                     } else if (reply instanceof MultiBulkReply) {
                         MultiBulkReply multiBulkReply = (MultiBulkReply) reply;
+                        String result = "";
                         for (int i = 0; i < multiBulkReply.data().length; i++) {
-                            //System.out.println("Receive: " + ((BulkReply) multiBulkReply.data()[i]).asAsciiString());
+                            result = result + " " + ((BulkReply) multiBulkReply.data()[i]).asAsciiString();
                         }
+
+                        //System.out.println("Array " + result);
                     }
                 } catch (CommandErrorException e) {
                     e.printStackTrace();
