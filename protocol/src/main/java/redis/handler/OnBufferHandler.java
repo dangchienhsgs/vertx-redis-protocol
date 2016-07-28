@@ -33,7 +33,7 @@ public class OnBufferHandler implements Handler<Buffer> {
         VXRedisProtocol protocol;
         if (cacheBufStorage.getBuffer() == null) {
             // do not have some incomplete command
-            // System.out.println("New Buffer: " + buffer.toString().replace("\r", "r").replace("\n", "n"));
+            System.out.println("New Buffer: " + buffer.toString().replace("\r", "r").replace("\n", "n"));
             protocol = new VXRedisProtocol(buffer, cacheBufStorage);
 
         } else {
@@ -42,7 +42,7 @@ public class OnBufferHandler implements Handler<Buffer> {
             totalBuffer.appendBuffer(buffer);
             cacheBufStorage.setBuffer(null);
 
-            // System.out.println("Cached, new Buffer: " + totalBuffer.toString().replace("\r", "r").replace("\n", "n"));
+            System.out.println("Cached, new Buffer: " + totalBuffer.toString().replace("\r", "r").replace("\n", "n"));
             protocol = new VXRedisProtocol(totalBuffer, cacheBufStorage);
         }
 

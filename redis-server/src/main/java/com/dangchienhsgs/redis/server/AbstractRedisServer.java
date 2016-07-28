@@ -5,6 +5,7 @@ package com.dangchienhsgs.redis.server;
  */
 
 import io.vertx.core.AbstractVerticle;
+import io.vertx.core.net.NetServerOptions;
 import io.vertx.core.net.NetSocket;
 import redis.CacheBufStorage;
 import redis.handler.OnBufferHandler;
@@ -15,24 +16,25 @@ public abstract class AbstractRedisServer extends AbstractVerticle {
 
     @Override
     public void start() {
-        vertx.createNetServer().connectHandler(sock -> {
-            // create cache storage
-            // obtain buffer in a CacheBufStorage class because it must change on some function
-            CacheBufStorage cacheBufStorage = new CacheBufStorage(null);
+        vertx.createNetServer(new NetServerOptions().setTcpNoDelay(true).setReuseAddress(true))
+                .connectHandler(sock -> {
+                    // create cache storage
+                    // obtain buffer in a CacheBufStorage class because it must change on some function
+                    CacheBufStorage cacheBufStorage = new CacheBufStorage(null);
 
-            // create buffer handler
-            OnBufferHandler bufferHandler = new OnBufferHandler(
-                    cacheBufStorage,
-                    sock,
-                    (socket, reply) -> handleMultiBulkReply(socket, reply),
-                    (socket, reply) -> handleBulkReply(socket, reply)
+                    // create buffer handler
+                    OnBufferHandler bufferHandler = new OnBufferHandler(
+                            cacheBufStorage,
+                            sock,
+                            (socket, reply) -> handleMultiBulkReply(socket, reply),
+                            (socket, reply) -> handleBulkReply(socket, reply)
 
-            );
+                    );
 
-            // start listen to buffer
-            sock.handler(bufferHandler);
+                    // start listen to buffer
+                    sock.handler(bufferHandler);
 
-        }).listen(getPort(), getHost());
+                }).listen(getPort(), getHost());
     }
 
     public abstract String getHost();
