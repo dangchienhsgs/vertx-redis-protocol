@@ -5,10 +5,10 @@ import io.vertx.core.buffer.Buffer;
 /**
  * Created by Nguyen Dang Chien on 7/27/16.
  */
-public class CacheHandler {
+public class CacheBufStorage {
     private Buffer buffer;
 
-    public CacheHandler(Buffer buffer) {
+    public CacheBufStorage(Buffer buffer) {
         this.buffer = buffer;
     }
 

@@ -5,7 +5,6 @@ package com.dangchienhsgs.redis.client;
  */
 
 import io.vertx.core.Vertx;
-import io.vertx.core.buffer.Buffer;
 import io.vertx.core.net.NetSocket;
 
 import java.util.concurrent.ExecutorService;
@@ -27,14 +26,13 @@ public class RedisClient {
         vertx.createNetClient().connect(1234, "localhost", res -> {
             if (res.succeeded()) {
                 NetSocket socket = res.result();
-                Buffer clientBuffer = Buffer.buffer();
 
                 socket.handler(buffer -> {
                     System.out.println("Net client receiving: " + buffer.toString("UTF-8"));
                 });
 
                 // Now send some data
-                for (int i = 0; i < 1000000; i++) {
+                for (int i = 0; i < 1000; i++) {
                     service.execute(new MyRunnable(i, socket));
                 }
             } else {
@@ -54,8 +52,7 @@ public class RedisClient {
 
         @Override
         public void run() {
-            String send = new StringBuilder("*2\r\n$3\r\nfoo\r\n$3\r\nbar\r\n")
-                    .toString();
+            String send = "*2\r\n$3\r\nfoo\r\n$3\r\nbar\r\n";
             System.out.println(new StringBuilder("Print ").append(i));
             netSocket.write(send);
         }

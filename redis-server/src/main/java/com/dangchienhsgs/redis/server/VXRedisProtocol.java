@@ -22,15 +22,15 @@ public class VXRedisProtocol {
 
     private Buffer buffer;
     private ByteBuf byteBuf;
-    private CacheHandler cacheHandler;
+    private CacheBufStorage cacheBufStorage;
 
     private int unreadIndex;
     private boolean endCommand;
 
-    public VXRedisProtocol(Buffer buffer, CacheHandler cacheHandler) {
+    public VXRedisProtocol(Buffer buffer, CacheBufStorage cacheBufStorage) {
         this.byteBuf = buffer.getByteBuf();
         this.buffer = buffer;
-        this.cacheHandler = cacheHandler;
+        this.cacheBufStorage = cacheBufStorage;
     }
 
     public static byte[] toBytes(Number length) {
@@ -195,9 +195,7 @@ public class VXRedisProtocol {
 
     public void cacheIncompleteCommand() {
         Buffer cacheBuffer = buffer.getBuffer(unreadIndex, buffer.getByteBuf().writerIndex());
-        // reset its index
-        System.out.println("CACHE: " + new String(cacheBuffer.getBytes()).replace("\r", "r").replace("\n", "n") + " " + cacheBuffer.getByteBuf().readerIndex());
-        cacheHandler.setBuffer(cacheBuffer);
+        cacheBufStorage.setBuffer(cacheBuffer);
     }
 
     public int getReaderIndex() {
