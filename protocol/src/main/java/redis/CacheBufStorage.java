@@ -1,4 +1,4 @@
-package com.dangchienhsgs.redis.server;
+package redis;
 
 import io.vertx.core.buffer.Buffer;
 

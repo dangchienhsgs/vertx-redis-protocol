@@ -1,4 +1,4 @@
-package com.dangchienhsgs.redis.exception;
+package redis.exception;
 
 /**
  * Created by Nguyen Dang Chien on 7/28/16.

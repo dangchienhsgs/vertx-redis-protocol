@@ -1,6 +1,8 @@
 package redis.reply;
 
 import com.google.common.base.Charsets;
+import io.vertx.core.buffer.Buffer;
+import io.vertx.core.net.NetSocket;
 import redis.RedisProtocol;
 
 import java.io.IOException;
@@ -49,5 +51,14 @@ public class BulkReply implements Reply<byte[]> {
         os.write(CRLF);
         os.write(bytes);
         os.write(CRLF);
+    }
+
+    @Override
+    public void write(NetSocket socket) throws IOException {
+        socket.write(Buffer.buffer().appendInt(MARKER));
+        socket.write(Buffer.buffer().appendBytes(RedisProtocol.toBytes(bytes.length)));
+        socket.write(Buffer.buffer().appendBytes(CRLF));
+        socket.write(Buffer.buffer().appendBytes(bytes));
+        socket.write(Buffer.buffer().appendBytes(CRLF));
     }
 }

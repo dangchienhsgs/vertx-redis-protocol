@@ -1,5 +1,7 @@
 package redis.reply;
 
+import io.vertx.core.buffer.Buffer;
+import io.vertx.core.net.NetSocket;
 import redis.RedisProtocol;
 
 import java.io.IOException;
@@ -30,5 +32,12 @@ public class IntegerReply implements Reply<Long> {
         os.write(MARKER);
         os.write(RedisProtocol.toBytes(integer));
         os.write(CRLF);
+    }
+
+    @Override
+    public void write(NetSocket socket) throws IOException {
+        socket.write(Buffer.buffer().appendInt(MARKER));
+        socket.write(Buffer.buffer().appendBytes(RedisProtocol.toBytes(integer)));
+        socket.write(Buffer.buffer().appendBytes(CRLF));
     }
 }

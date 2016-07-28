@@ -1,6 +1,8 @@
 package redis.reply;
 
 import com.google.common.base.Charsets;
+import io.vertx.core.buffer.Buffer;
+import io.vertx.core.net.NetSocket;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -31,5 +33,12 @@ public class ErrorReply implements Reply<String> {
         os.write(MARKER);
         os.write(error.getBytes());
         os.write(CRLF);
+    }
+
+    @Override
+    public void write(NetSocket socket) throws IOException {
+        socket.write(Buffer.buffer().appendInt(MARKER));
+        socket.write(Buffer.buffer().appendBytes(error.getBytes()));
+        socket.write(Buffer.buffer().appendBytes(CRLF));
     }
 }

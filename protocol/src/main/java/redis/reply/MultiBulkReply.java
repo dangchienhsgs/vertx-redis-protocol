@@ -1,5 +1,7 @@
 package redis.reply;
 
+import io.vertx.core.buffer.Buffer;
+import io.vertx.core.net.NetSocket;
 import redis.RedisProtocol;
 
 import java.io.IOException;
@@ -108,5 +110,19 @@ public class MultiBulkReply implements Reply<Reply[]> {
             }
         }
         return map;
+    }
+
+    @Override
+    public void write(NetSocket socket) throws IOException {
+        socket.write(Buffer.buffer().appendInt(MARKER));
+        if (replies == null) {
+            socket.write(Buffer.buffer().appendBytes(NEG_ONE_WITH_CRLF));
+        } else {
+            socket.write(Buffer.buffer().appendBytes(RedisProtocol.toBytes(replies.length)));
+            socket.write(Buffer.buffer().appendBytes(CRLF));
+            for (Reply reply : replies) {
+                reply.write(socket);
+            }
+        }
     }
 }

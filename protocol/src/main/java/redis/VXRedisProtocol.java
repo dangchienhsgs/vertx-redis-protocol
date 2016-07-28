@@ -1,10 +1,10 @@
-package com.dangchienhsgs.redis.server;
+package redis;
 
-import com.dangchienhsgs.redis.exception.CommandErrorException;
-import com.dangchienhsgs.redis.exception.IncompleteCommandException;
-import com.dangchienhsgs.redis.exception.InvalidDigitCharacterException;
 import io.netty.buffer.ByteBuf;
 import io.vertx.core.buffer.Buffer;
+import redis.exception.CommandErrorException;
+import redis.exception.IncompleteCommandException;
+import redis.exception.InvalidDigitCharacterException;
 import redis.reply.BulkReply;
 import redis.reply.IntegerReply;
 import redis.reply.MultiBulkReply;
@@ -25,7 +25,6 @@ public class VXRedisProtocol {
     private CacheBufStorage cacheBufStorage;
 
     private int unreadIndex;
-    private boolean endCommand;
 
     public VXRedisProtocol(Buffer buffer, CacheBufStorage cacheBufStorage) {
         this.byteBuf = buffer.getByteBuf();

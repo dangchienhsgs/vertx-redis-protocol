@@ -1,4 +1,4 @@
-package com.dangchienhsgs.redis.listener;
+package redis.listener;
 
 import io.vertx.core.net.NetSocket;
 import redis.reply.BulkReply;

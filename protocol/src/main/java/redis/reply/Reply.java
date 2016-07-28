@@ -1,5 +1,6 @@
 package redis.reply;
 
+import io.vertx.core.net.NetSocket;
 import redis.RedisProtocol;
 
 import java.io.IOException;
@@ -18,4 +19,6 @@ public interface Reply<T> {
     T data();
 
     void write(OutputStream os) throws IOException;
+
+    void write(NetSocket socket) throws IOException;
 }

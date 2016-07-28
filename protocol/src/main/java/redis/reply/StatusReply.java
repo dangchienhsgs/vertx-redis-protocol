@@ -1,5 +1,8 @@
 package redis.reply;
 
+import io.vertx.core.buffer.Buffer;
+import io.vertx.core.net.NetSocket;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
@@ -36,5 +39,12 @@ public class StatusReply implements Reply<String> {
         os.write(MARKER);
         os.write(statusBytes);
         os.write(CRLF);
+    }
+
+    @Override
+    public void write(NetSocket socket) throws IOException {
+        socket.write(Buffer.buffer().appendInt(MARKER));
+        socket.write(Buffer.buffer().appendBytes(statusBytes));
+        socket.write(Buffer.buffer().appendBytes(CRLF));
     }
 }

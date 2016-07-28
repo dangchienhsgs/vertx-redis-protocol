@@ -14,7 +14,7 @@ public class SimpleRedisServer extends AbstractRedisServer {
     // Convenience method so you can run it in your IDE
     public static void main(String[] args) {
         Vertx vertx = Vertx.vertx();
-        DeploymentOptions options = new DeploymentOptions().setInstances(100);
+        DeploymentOptions options = new DeploymentOptions().setInstances(1000);
         vertx.deployVerticle(SimpleRedisServer.class.getCanonicalName(), options);
     }
 
@@ -40,6 +40,7 @@ public class SimpleRedisServer extends AbstractRedisServer {
         }
 
         System.out.println("Array: " + result);
+        socket.write("*2\r\n$3\r\nOK\r\n$3\r\nman\r\n");
     }
 
     @Override
