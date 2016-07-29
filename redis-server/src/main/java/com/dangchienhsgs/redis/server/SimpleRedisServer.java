@@ -11,10 +11,12 @@ import redis.reply.Reply;
  * Created by Nguyen Dang Chien on 7/28/16.
  */
 public class SimpleRedisServer extends AbstractRedisServer {
+    private static int NUMBER_SERVER_INSTANCES = 30;
+
     // Convenience method so you can run it in your IDE
     public static void main(String[] args) {
         Vertx vertx = Vertx.vertx();
-        DeploymentOptions options = new DeploymentOptions().setInstances(1000);
+        DeploymentOptions options = new DeploymentOptions().setInstances(NUMBER_SERVER_INSTANCES);
         vertx.deployVerticle(SimpleRedisServer.class.getCanonicalName(), options);
     }
 
