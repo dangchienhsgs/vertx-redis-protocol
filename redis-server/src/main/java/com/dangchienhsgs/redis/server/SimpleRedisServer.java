@@ -3,18 +3,18 @@ package com.dangchienhsgs.redis.server;
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Vertx;
 import io.vertx.core.net.NetSocket;
-import redis.reply.BulkReply;
-import redis.reply.MultiBulkReply;
-import redis.reply.Reply;
+import redis.reply.*;
 
 /**
  * Created by Nguyen Dang Chien on 7/28/16.
  */
 public class SimpleRedisServer extends AbstractRedisServer {
+    private static int NUMBER_SERVER_INSTANCES = 100;
+
     // Convenience method so you can run it in your IDE
     public static void main(String[] args) {
         Vertx vertx = Vertx.vertx();
-        DeploymentOptions options = new DeploymentOptions().setInstances(1000);
+        DeploymentOptions options = new DeploymentOptions().setInstances(NUMBER_SERVER_INSTANCES);
         vertx.deployVerticle(SimpleRedisServer.class.getCanonicalName(), options);
     }
 
@@ -46,5 +46,20 @@ public class SimpleRedisServer extends AbstractRedisServer {
     @Override
     public void handleBulkReply(NetSocket socket, BulkReply reply) {
         System.out.println("String: " + reply.asUTF8String());
+    }
+
+    @Override
+    public void handleIntegerReply(NetSocket socket, IntegerReply reply) {
+
+    }
+
+    @Override
+    public void handleStatusReply(NetSocket socket, StatusReply reply) {
+
+    }
+
+    @Override
+    public void handleErrorReply(NetSocket socket, ErrorReply reply) {
+
     }
 }

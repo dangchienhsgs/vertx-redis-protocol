@@ -1,6 +1,9 @@
 import com.google.common.base.Stopwatch;
+import io.vertx.core.buffer.Buffer;
 import org.junit.Test;
 import redis.clients.jedis.Jedis;
+import redis.reply.BulkReply;
+import redis.reply.MultiBulkReply;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -24,5 +27,18 @@ public class TestJedisCompability {
         stopwatch.stop();
 
         System.out.println(stopwatch.elapsed(TimeUnit.MILLISECONDS));
+    }
+
+    @Test
+    public void testMultiBulk() {
+        BulkReply reply1 = new BulkReply("abc".getBytes());
+        BulkReply reply2 = new BulkReply("xyz".getBytes());
+
+        MultiBulkReply multiBulkReply = new MultiBulkReply(new BulkReply[]{reply1, reply2});
+
+        Buffer buffer = Buffer.buffer();
+
+        buffer.appendByte((byte) '*');
+        System.out.println(buffer);
     }
 }

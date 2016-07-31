@@ -2,6 +2,7 @@ group 'protocol'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
+apply plugin: 'maven'
 
 sourceCompatibility = 1.8
 
@@ -12,7 +13,6 @@ repositories {
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
     compile "io.vertx:vertx-core:3.3.2"
-    compile 'io.vertx:vertx-redis-client:3.3.2'
     compile group: 'redis.clients', name: 'jedis', version: '2.9.0'
     compile project(":protocol")
 }

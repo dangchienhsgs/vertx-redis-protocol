@@ -43,8 +43,10 @@ public class StatusReply implements Reply<String> {
 
     @Override
     public void write(NetSocket socket) throws IOException {
-        socket.write(Buffer.buffer().appendInt(MARKER));
-        socket.write(Buffer.buffer().appendBytes(statusBytes));
-        socket.write(Buffer.buffer().appendBytes(CRLF));
+        socket.write(Buffer.buffer()
+                .appendByte((byte) MARKER)
+                .appendBytes(statusBytes)
+                .appendBytes(CRLF)
+        );
     }
 }
