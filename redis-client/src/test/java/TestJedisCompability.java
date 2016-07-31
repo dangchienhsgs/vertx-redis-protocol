@@ -40,18 +40,5 @@ public class TestJedisCompability {
 
         buffer.appendByte((byte) '*');
         System.out.println(buffer);
-
-
-//        socket.write(Buffer.buffer().appendByte((byte)MARKER));
-//        if (replies == null) {
-//            socket.write(Buffer.buffer().appendBytes(NEG_ONE_WITH_CRLF));
-//        } else {
-//            socket.write(Buffer.buffer().appendBytes(RedisProtocol.toBytes(replies.length)));
-//            socket.write(Buffer.buffer().appendBytes(CRLF));
-//            for (Reply reply : replies) {
-//                reply.write(socket);
-//            }
-//        }
-        //multiBulkReply.write();
     }
 }
