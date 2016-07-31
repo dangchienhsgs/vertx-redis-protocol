@@ -37,8 +37,9 @@ public class ErrorReply implements Reply<String> {
 
     @Override
     public void write(NetSocket socket) throws IOException {
-        socket.write(Buffer.buffer().appendInt(MARKER));
-        socket.write(Buffer.buffer().appendBytes(error.getBytes()));
-        socket.write(Buffer.buffer().appendBytes(CRLF));
+        socket.write(Buffer.buffer().appendByte((byte) MARKER)
+                .appendBytes(error.getBytes())
+                .appendBytes(CRLF)
+        );
     }
 }

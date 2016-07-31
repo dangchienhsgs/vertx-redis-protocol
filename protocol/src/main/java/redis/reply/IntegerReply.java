@@ -36,8 +36,9 @@ public class IntegerReply implements Reply<Long> {
 
     @Override
     public void write(NetSocket socket) throws IOException {
-        socket.write(Buffer.buffer().appendInt(MARKER));
-        socket.write(Buffer.buffer().appendBytes(RedisProtocol.toBytes(integer)));
-        socket.write(Buffer.buffer().appendBytes(CRLF));
+        socket.write(Buffer.buffer().appendByte((byte) MARKER)
+                .appendBytes(RedisProtocol.toBytes(integer))
+                .appendBytes(CRLF)
+        );
     }
 }

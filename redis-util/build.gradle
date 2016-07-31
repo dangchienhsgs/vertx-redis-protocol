@@ -1,11 +1,29 @@
-version 'unspecified'
+version '2.0'
 
 apply plugin: 'java'
+apply plugin: 'maven'
 
 sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
+    maven {
+        url "http://192.168.23.134:8081/nexus/content/repositories/abtesting/"
+    }
+}
+
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: "http://192.168.23.134:8081/nexus/content/repositories/abtesting/") {
+                authentication(userName: "chiennd", password: "chien1994")
+            }
+            pom.version = version
+            pom.artifactId = "redis-util"
+            pom.groupId = "redis-protocol"
+        }
+    }
 }
 
 dependencies {

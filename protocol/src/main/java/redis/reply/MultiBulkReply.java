@@ -114,12 +114,14 @@ public class MultiBulkReply implements Reply<Reply[]> {
 
     @Override
     public void write(NetSocket socket) throws IOException {
-        socket.write(Buffer.buffer().appendInt(MARKER));
+        Buffer buffer = Buffer.buffer().appendByte((byte) MARKER);
+
         if (replies == null) {
-            socket.write(Buffer.buffer().appendBytes(NEG_ONE_WITH_CRLF));
+            buffer.appendBytes(NEG_ONE_WITH_CRLF);
+            socket.write(buffer);
         } else {
-            socket.write(Buffer.buffer().appendBytes(RedisProtocol.toBytes(replies.length)));
-            socket.write(Buffer.buffer().appendBytes(CRLF));
+            buffer.appendBytes(RedisProtocol.toBytes(replies.length)).appendBytes(CRLF);
+            socket.write(buffer);
             for (Reply reply : replies) {
                 reply.write(socket);
             }

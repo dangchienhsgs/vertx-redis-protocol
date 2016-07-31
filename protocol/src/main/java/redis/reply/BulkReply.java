@@ -55,10 +55,11 @@ public class BulkReply implements Reply<byte[]> {
 
     @Override
     public void write(NetSocket socket) throws IOException {
-        socket.write(Buffer.buffer().appendInt(MARKER));
-        socket.write(Buffer.buffer().appendBytes(RedisProtocol.toBytes(bytes.length)));
-        socket.write(Buffer.buffer().appendBytes(CRLF));
-        socket.write(Buffer.buffer().appendBytes(bytes));
-        socket.write(Buffer.buffer().appendBytes(CRLF));
+        socket.write(Buffer.buffer().appendByte((byte) MARKER)
+                .appendBytes(RedisProtocol.toBytes(bytes.length))
+                .appendBytes(CRLF)
+                .appendBytes(bytes)
+                .appendBytes(CRLF)
+        );
     }
 }
