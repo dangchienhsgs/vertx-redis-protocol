@@ -1,6 +1,6 @@
 # Redis protocol in Vertx
 
-- Server:
+- **Server**:
  
 ```java
 package com.dangchienhsgs.redis.server;
@@ -64,7 +64,8 @@ Deploy server with load balancing to use multicore :)
 ```
 
 
-- Client: Use any redis client like Jedis to send message to server :)
+- **Client**: 
+Please use any redis client like Jedis to send message to server :)
 
 Example:
 
