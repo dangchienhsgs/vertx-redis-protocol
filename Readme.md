@@ -64,4 +64,4 @@ Deploy server with load balancing to use multicore :)
 ```
 
 
-- Client: Use some redis client like Jedis to send message to server :)
+- Client: Use any redis client like Jedis to send message to server :)
